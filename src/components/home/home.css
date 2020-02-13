@@ -1,0 +1,27 @@
+#help {
+    position: absolute;
+    right: 1%;
+    top: 1%;
+}
+
+#about {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    right: 0;
+    bottom: 5%;
+    text-align: center;
+}
+
+@media (min-width: 992px) {
+
+    #title {
+        font-size: 72px;
+        font-size: 900;
+    }
+
+    .d-flex {
+        width: 50% !important;
+        margin: 0 auto;
+    }
+}

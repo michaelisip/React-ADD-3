@@ -1,0 +1,9 @@
+#game-info {
+    position: absolute;
+    right: 1%;
+    top: 1%;
+}
+
+.random-number {
+    font-size: 72px;
+}

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import './play.css'
+
 class Play extends Component {
 
     constructor(props) {
@@ -56,16 +58,16 @@ class Play extends Component {
     }
 
     updatePlayerAnswer(e) {
-        const playerAnswer = e.target.value
         this.setState({
-            playerAnswer: playerAnswer
+            playerAnswer: e.target.value
+        }, () => {
+            if(this.state.playerAnswer.toString().length === 4) {
+                this.submitAnswer(e)
+            }    
         })
-        if(playerAnswer.toString().length === 4) {
-            this.submitAnswer()
-        }
     }
 
-    submitAnswer(playerAnswer) {
+    submitAnswer() {
         const correctAnswer = this.state.randomNumber
                                 .toString()
                                 .split('')
@@ -77,7 +79,9 @@ class Play extends Component {
 
         if (this.state.playerAnswer === correctAnswer) {
             console.error("Yes")
-            // Correct Answer
+            this.setState(({score}) => ({
+                score: score + 1
+            }))
         } else {
             console.error("No")
             // Wrong answer
@@ -92,20 +96,29 @@ class Play extends Component {
     render() {
         return (
             <div className="container">
-                Gametime: {this.state.gameClock + ` `}
+                <div id="game-info">
+                    <span> Gametime: {this.state.gameClock} </span>
+                    <span> Score: {this.state.score} </span>
+                </div>
 
-                { this.props.location.playerName + ` ` }
-                { this.state.randomNumber + ` ` }
+                <div className="d-flex justify-content-center flex-column h-100">
 
-                Turntime: {this.state.guestClock}
+                    <h1 className="text-center mb-5 random-number">
+                        {this.state.randomNumber}
+                    </h1>
 
-                <input 
-                    type="number"
-                    name="answer"
-                    value={this.state.playerAnswer}
-                    onChange={this.updatePlayerAnswer}
-                    autoFocus
-                />
+                    <div className="input-group input-group-lg">
+                        <input 
+                            type="number"
+                            name="answer"
+                            className="form-control text-center"
+                            value={this.state.playerAnswer}
+                            onChange={this.updatePlayerAnswer}
+                            autoFocus
+                        />
+                    </div>
+                </div>
+
             </div>
         )
     }

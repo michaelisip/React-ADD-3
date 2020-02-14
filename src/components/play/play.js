@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 
+import Keypad from '../keypad/keypad'
 import './play.css'
 
 class Play extends Component {
@@ -17,13 +18,15 @@ class Play extends Component {
         this.generateNewRandomNumber = this.generateNewRandomNumber.bind(this)
         this.updateClocks = this.updateClocks.bind(this)
         this.resetGuessClock = this.resetGuessClock.bind(this)
+        this.clearPlayerAnswer = this.clearPlayerAnswer.bind(this)
+        this.keypadClicked = this.keypadClicked.bind(this)
         this.updatePlayerAnswer = this.updatePlayerAnswer.bind(this)
         this.submitAnswer = this.submitAnswer.bind(this)
         this.gameOver = this.gameOver.bind(this)
     }
 
     componentDidMount() {
-        this.updateClocks()
+        // this.updateClocks()
         this.generateNewRandomNumber()
         if (! localStorage.getItem("playerName")) {
           localStorage.setItem("playerName", this.props.location.playerName)
@@ -61,14 +64,31 @@ class Play extends Component {
         this.generateNewRandomNumber()
     }
 
+    clearPlayerAnswer() {
+      this.setState({
+        playerAnswer: ''
+      })
+    }
+
+    keypadClicked(value) {
+      this.setState(({ playerAnswer }) => ({
+        playerAnswer: playerAnswer.toString() + value.toString()
+      }), () => {
+        if(this.state.playerAnswer.toString().length === 4) {
+            this.submitAnswer()
+        }
+      })
+    }
+
     updatePlayerAnswer(e) {
-        this.setState({
-            playerAnswer: e.target.value
-        }, () => {
-            if(this.state.playerAnswer.toString().length === 4) {
-                this.submitAnswer(e)
-            }    
-        })
+      e.preventDefault()
+      this.setState({
+          playerAnswer: e.target.value
+      }, () => {
+          if(this.state.playerAnswer.toString().length === 4) {
+              this.submitAnswer()
+          }    
+      })
     }
 
     submitAnswer() {
@@ -118,11 +138,9 @@ class Play extends Component {
                 </div>
 
                 <div className="d-flex justify-content-center flex-column h-100">
-
                     <h1 className="text-center mb-5 random-number">
                         {this.state.randomNumber}
                     </h1>
-
                     <div className="input-group input-group-lg">
                         <input 
                             type="number"
@@ -133,8 +151,21 @@ class Play extends Component {
                             autoFocus
                         />
                     </div>
-                </div>
+                    <div id="keypads" className="align-self-end text-center mt-5">
+                      <Keypad digit="1" onClick={this.keypadClicked} />
+                      <Keypad digit="2" onClick={this.keypadClicked} />
+                      <Keypad digit="3" onClick={this.keypadClicked} />
+                      <Keypad digit="4" onClick={this.keypadClicked} />
+                      <Keypad digit="5" onClick={this.keypadClicked} />
+                      <Keypad digit="6" onClick={this.keypadClicked} />
+                      <Keypad digit="7" onClick={this.keypadClicked} />
+                      <Keypad digit="8" onClick={this.keypadClicked} />
+                      <Keypad digit="9" onClick={this.keypadClicked} />
+                      <Keypad digit="0" onClick={this.keypadClicked} />
+                      <Keypad onClick={this.clearPlayerAnswer} />
+                    </div>
 
+                </div>
             </div>
         )
     }

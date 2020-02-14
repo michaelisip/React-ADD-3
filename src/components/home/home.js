@@ -13,6 +13,10 @@ class Home extends Component {
         this.handlePlayerNameChange = this.handlePlayerNameChange.bind(this)
     }
 
+    componentWillMount() {
+      localStorage.removeItem("playerName")
+    }
+
     handleSubmit(e) {
         this.props.history.push({
             pathname: '/play',

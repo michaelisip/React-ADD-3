@@ -8,10 +8,11 @@ class Play extends Component {
         super(props)
         this.state = {
             gameClock: 60,
-            guestClock: 10,
+            guestClock: 4,
             score: 0,
             randomNumber: '',
-            playerAnswer: ''
+            playerAnswer: '',
+            playerName: localStorage.getItem("playerName") || this.props.location.playerName
         }
         this.generateNewRandomNumber = this.generateNewRandomNumber.bind(this)
         this.updateClocks = this.updateClocks.bind(this)
@@ -24,6 +25,9 @@ class Play extends Component {
     componentDidMount() {
         this.updateClocks()
         this.generateNewRandomNumber()
+        if (! localStorage.getItem("playerName")) {
+          localStorage.setItem("playerName", this.props.location.playerName)
+        }
     }
 
     generateNewRandomNumber() {
@@ -90,7 +94,19 @@ class Play extends Component {
     }
 
     gameOver() {
-        console.error("Game over")
+        const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
+        fetch(`${API_ENDPOINT}/scores`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: this.state.playerName,
+            score: this.state.score
+          })
+        })
+        .then((response) => console.log(response))
+        .catch((err) => console.error(err))
     }
 
     render() {

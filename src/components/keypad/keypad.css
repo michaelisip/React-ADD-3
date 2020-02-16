@@ -9,7 +9,7 @@
   box-shadow: none !important;
 }
 
-.btn-dark:focus, .btn-dark.focus {
+.btn-dark:focus, .btn-dark.focus, .btn-dark:hover, .btn-dark.hover {
   background-color: #343a40 !important;
   border-color: #343a40 !important;
   box-shadow: none !important;

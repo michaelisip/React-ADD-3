@@ -26,7 +26,7 @@ class Play extends Component {
     }
 
     componentDidMount() {
-        // this.updateClocks()
+        this.updateClocks()
         this.generateNewRandomNumber()
         if (! localStorage.getItem("playerName")) {
           localStorage.setItem("playerName", this.props.location.playerName)
@@ -115,7 +115,7 @@ class Play extends Component {
 
     gameOver() {
         const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT
-        fetch(`${API_ENDPOINT}/scores`, {
+        fetch(`${API_ENDPOINT}/add-three/scores`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
